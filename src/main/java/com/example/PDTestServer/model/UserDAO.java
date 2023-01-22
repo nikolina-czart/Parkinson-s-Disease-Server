@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class UserDAO {
+    private String uid;
     private String name;
     private String surname;
     private String role;

@@ -18,16 +18,24 @@ import java.util.concurrent.ExecutionException;
 public class TestPatientRepository {
     private static final String COLLECTION_USER_NAME = "users";
     private static final String COLLECTION_TEST_NAME = "tests";
+    private static final String COLLECTION_TEST_HISTORY_NAME = "testsHistory";
 
     public void saveTestByPatient(String uid, Map<String, PatientTestDAO> testsAvailable) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
 
-        testsAvailable.forEach((key, value) ->
-                dbFirestore.collection(COLLECTION_USER_NAME)
-                        .document(uid)
-                        .collection(COLLECTION_TEST_NAME)
-                        .document(key)
-                        .set(value)
+        testsAvailable.forEach((key, value) -> {
+            dbFirestore.collection(COLLECTION_USER_NAME)
+                    .document(uid)
+                    .collection(COLLECTION_TEST_NAME)
+                    .document(key)
+                    .set(value);
+
+            dbFirestore.collection(COLLECTION_USER_NAME)
+                    .document(uid)
+                    .collection(COLLECTION_TEST_HISTORY_NAME)
+                    .document(key)
+                    .set(value);
+                }
         );
     }
 

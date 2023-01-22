@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public String updateUser(String uid, UserDTO userDTO) {
-        userRepository.upadateUser(uid, convertUserDTOToUserDAO(userDTO));
+        userRepository.updateUser(uid, convertUserDTOToUserDAO(userDTO));
         return "Document with User ID " + uid + " has been updated successfully";
     }
 
@@ -49,6 +49,6 @@ public class UserService {
     }
 
     private UserDAO convertUserDTOToUserDAO(UserDTO userDTO) {
-        return new UserDAO(userDTO.getName(), userDTO.getSurname(), userDTO.getRole(), userDTO.getDoctorID());
+        return new UserDAO(userDTO.getUid(), userDTO.getName(), userDTO.getSurname(), userDTO.getRole(), userDTO.getDoctorID());
     }
 }
