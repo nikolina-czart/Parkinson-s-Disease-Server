@@ -1,4 +1,4 @@
-package com.example.PDTestServer.controller.user.request;
+package com.example.PDTestServer.controller.patientTests.request;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,12 +1,14 @@
 package com.example.PDTestServer.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Setter
 @Getter
-@Builder
+@AllArgsConstructor
 public class PatientTestDAO {
     private String name;
 }

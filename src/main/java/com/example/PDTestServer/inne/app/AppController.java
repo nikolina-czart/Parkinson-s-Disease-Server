@@ -1,4 +1,4 @@
-package com.example.PDTestServer.controller;
+package com.example.PDTestServer.inne.app;
 
 import org.apache.coyote.Response;
 import org.springframework.security.access.prepost.PreAuthorize;

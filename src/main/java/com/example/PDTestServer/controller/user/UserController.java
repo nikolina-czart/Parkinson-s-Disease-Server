@@ -25,9 +25,9 @@ public class UserController {
         return userService.getUserDetails(uid);
     }
 
-    @PutMapping("")
-    public String updateUser(@RequestBody UserDAO userDAO) throws ExecutionException, InterruptedException {
-        return userService.updateUser(userDAO);
+    @PutMapping("/{uid}")
+    public String updateUser(@PathVariable String uid, @RequestBody UserDTO userDTO) throws ExecutionException, InterruptedException {
+        return userService.updateUser(uid, userDTO);
     }
 
     @DeleteMapping("/{uid}")

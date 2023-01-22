@@ -1,6 +1,6 @@
 package com.example.PDTestServer.inne.app;
 
-import com.example.PDTestServer.UserManagementService;
+import com.example.PDTestServer.security.UserManagementService;
 import com.example.PDTestServer.security.Permission;
 import com.google.firebase.auth.FirebaseAuthException;
 import lombok.RequiredArgsConstructor;

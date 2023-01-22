@@ -1,4 +1,4 @@
-package com.example.PDTestServer;
+package com.example.PDTestServer.security;
 
 import com.example.PDTestServer.security.Permission;
 import com.google.firebase.auth.FirebaseAuth;
