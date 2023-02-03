@@ -1,19 +1,16 @@
 package com.example.PDTestServer.service;
 
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
-import com.example.PDTestServer.controller.result.response.FingerTappingChartDTO;
-import com.example.PDTestServer.controller.result.response.ResultFingerTappingByDayDTO;
-import com.example.PDTestServer.controller.result.response.ResultFingerTappingDTO;
-import com.example.PDTestServer.controller.result.response.StandardChartDTO;
+import com.example.PDTestServer.controller.result.response.*;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
+import com.example.PDTestServer.model.ResultGyroscopeDTO;
 import com.example.PDTestServer.repository.ResultRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -22,17 +19,73 @@ public class ResultService {
     @Autowired
     ResultRepository resultRepository;
 
-    public List<ResultFingerTappingDTO> getFingerTappingData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
-        List<ResultFingerTappingDTO> result = new ArrayList<>();
+    public List<TestResultResponseDTO> getTestResultData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<TestResultResponseDTO> result = new ArrayList<>();
+        if(resultRequestDTO.getTestNameID().contains("FINGER_TAPPING")){
+            return getFingerTappingData(uid, resultRequestDTO);
+        }
+        if(resultRequestDTO.getTestNameID().contains(" GYROSCOPE_TEST")){
+            return getGyroscopeData(uid, resultRequestDTO);
+        }
+        return result;
+    }
+
+    public List<TestResultResponseDTO> getFingerTappingData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<TestResultResponseDTO> result = new ArrayList<>();
         List<FingerTappingTestResultDAO> fingerTappingData = resultRepository.getFingerTappingData(uid, resultRequestDTO);
 
-        fingerTappingData.forEach(data -> result.add(ResultFingerTappingDTO.builder()
-                .testDate(data.getDate())
-                .fingerTappingByDayDTO(createFingerTappingByDayDTO(data))
-                .build()
-        ));
+        fingerTappingData.forEach(data -> {
+            StandardChartDTO standardChart = createStandardChart(data.getAccel());
+            FingerTappingChartDTO upDownChartDTO = createUpDownChartDTO(data.getData());
+
+            result.add(TestResultResponseDTO.builder()
+                    .testDate(data.getDate())
+                    .medicineSupply(data.getMedicineSupply())
+                    .side(data.getSide())
+                    .timestamp(standardChart.getTimestamp())
+                    .x(standardChart.getX())
+                    .y(standardChart.getY())
+                    .z(standardChart.getZ())
+                    .timestampUpDown(upDownChartDTO.getTimestamp())
+                    .upDown(upDownChartDTO.getUpDown())
+                    .build());
+        }
+        );
 
         return result;
+    }
+
+
+
+    public List<TestResultResponseDTO> getGyroscopeData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<TestResultResponseDTO> result = new ArrayList<>();
+        List<GyroscopeTestResultDAO> gyroscopeData = resultRepository.getGyroscopeData(uid, resultRequestDTO);
+
+        gyroscopeData.forEach(data -> {
+            StandardChartDTO standardChart = createStandardChart(data.getAccel());
+
+            result.add(TestResultResponseDTO.builder()
+                    .testDate(data.getDate())
+                    .medicineSupply(data.getMedicineSupply())
+                    .side(data.getSide())
+                    .timestamp(standardChart.getTimestamp())
+                    .x(standardChart.getX())
+                    .y(standardChart.getY())
+                    .z(standardChart.getZ())
+                    .timestampUpDown(new ArrayList<>())
+                    .upDown(new ArrayList<>())
+                    .build());
+        });
+
+        return result;
+    }
+
+    private ResultGyroscopeByDayDTO createGyrocopeByDayDTO(GyroscopeTestResultDAO data) {
+        return ResultGyroscopeByDayDTO.builder()
+                .medicineSupply(data.getMedicineSupply())
+                .side(data.getSide())
+                .standardChart(createStandardChart(data.getAccel()))
+                .build();
     }
 
     private ResultFingerTappingByDayDTO createFingerTappingByDayDTO(FingerTappingTestResultDAO data) {
@@ -84,6 +137,4 @@ public class ResultService {
                 .upDown(upDown)
                 .build();
     }
-
-
 }

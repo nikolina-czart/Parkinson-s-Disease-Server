@@ -5,6 +5,8 @@ import com.example.PDTestServer.model.UserDAO;
 import com.example.PDTestServer.service.UserService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
@@ -16,8 +18,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("save/{uid}")
-    public String saveUser(@PathVariable String uid, @RequestBody UserDTO userDTO) throws ExecutionException, InterruptedException {
-        return userService.saveUser(userDTO, uid);
+    public ResponseEntity<String> saveUser(@PathVariable String uid, @RequestBody UserDTO userDTO) throws ExecutionException, InterruptedException {
+        String response = userService.saveUser(userDTO, uid);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{uid}")

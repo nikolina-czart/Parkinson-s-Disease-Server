@@ -49,6 +49,6 @@ public class UserService {
     }
 
     private UserDAO convertUserDTOToUserDAO(UserDTO userDTO) {
-        return new UserDAO(userDTO.getUid(), userDTO.getName(), userDTO.getSurname(), userDTO.getRole(), userDTO.getDoctorID());
+        return new UserDAO(userDTO.getUid(), userDTO.getName(), userDTO.getSurname(), userDTO.getEmail(), userDTO.getRole(), userDTO.getDoctorID());
     }
 }

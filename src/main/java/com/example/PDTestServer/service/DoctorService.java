@@ -48,6 +48,7 @@ public class DoctorService {
                     .uid(userDAO.getUid())
                     .name(userDAO.getName())
                     .surname(userDAO.getSurname())
+                    .email(userDAO.getEmail())
                     .patientTests(getPatientTest(userDAO.getUid()))
                     .build();
 

@@ -14,5 +14,6 @@ public class UserWithTestDTO {
     private String uid;
     private String name;
     private String surname;
+    private String email;
     private Set<PatientTestDTO> patientTests;
 }

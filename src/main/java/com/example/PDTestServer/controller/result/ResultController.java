@@ -1,8 +1,8 @@
 package com.example.PDTestServer.controller.result;
 
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
-import com.example.PDTestServer.controller.result.response.ResultFingerTappingDTO;
-import com.example.PDTestServer.controller.user.request.UserDTO;
+import com.example.PDTestServer.controller.result.response.TestResultResponseDTO;
+import com.example.PDTestServer.model.ResultGyroscopeDTO;
 import com.example.PDTestServer.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +17,17 @@ public class ResultController {
     @Autowired
     ResultService resultService;
 
-    @PostMapping("/{uid}/fingertapping")
-    public List<ResultFingerTappingDTO> saveUser(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
-        return resultService.getFingerTappingData(uid, resultRequestDTO);
+    @PostMapping("/{uid}/testresult")
+    public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        return resultService.getTestResultData(uid, resultRequestDTO);
     }
+//    @PostMapping("/{uid}/testresult")
+//    public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+//        return resultService.getFingerTappingData(uid, resultRequestDTO);
+//    }
+//    @PostMapping("/{uid}/gyroscope")
+//    public List<ResultGyroscopeDTO> getResultGyroscope(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+//        return resultService.getGyroscopeData(uid, resultRequestDTO);
+//    }
+
 }

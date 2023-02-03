@@ -17,8 +17,8 @@ public class PatientTestController {
     private TestService testService;
 
     @PostMapping("save/{uid}")
-    public String saveTest(@PathVariable String uid, @RequestBody PatientTestSetDTO patientTestsSet) throws ExecutionException {
-        return testService.saveTest(uid, patientTestsSet.getPatientTests());
+    public String saveTest(@PathVariable String uid, @RequestBody Set<PatientTestDTO> patientTestsSet) throws ExecutionException {
+        return testService.saveTest(uid, patientTestsSet);
     }
 
     @GetMapping("/{uid}")

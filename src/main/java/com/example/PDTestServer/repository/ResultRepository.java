@@ -2,6 +2,7 @@ package com.example.PDTestServer.repository;
 
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
+import com.example.PDTestServer.service.GyroscopeTestResultDAO;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -58,6 +59,34 @@ public class ResultRepository {
         return results;
     }
 
+    public List<GyroscopeTestResultDAO> getGyroscopeData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<GyroscopeTestResultDAO> results = new ArrayList<>();
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+
+        String testName = resultRequestDTO.getTestNameID();
+        LocalDate startDate = LocalDate.parse(resultRequestDTO.getFormDate());
+        LocalDate endDate = LocalDate.parse(resultRequestDTO.getToDate());
+
+        CollectionReference testDatesCollectionReference = getTestDatesCollectionReference(dbFirestore, uid, testName);
+        Map<String, String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
+
+        datesID.forEach((k, v) -> {
+            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(k).collection("LEFT").document("testData").get();
+            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(k).collection("RIGHT").document("testData").get();
+
+            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, k);
+
+            ArrayList<String> accelLeft = getArrayList(leftSideFuture, "accel");
+            ArrayList<String> accelRight = getArrayList(rightSideFuture, "accel");
+
+            results.add(new GyroscopeTestResultDAO(v, accelLeft, hoursSinceLastMed, "LEFT"));
+            results.add(new GyroscopeTestResultDAO(v, accelRight, hoursSinceLastMed, "RIGHT"));
+        });
+
+        return results;
+    }
+
     private ArrayList<String> getArrayList(ApiFuture<DocumentSnapshot> sideFuture, String name) {
         try {
             return (ArrayList<String>) sideFuture.get().get(name);
@@ -104,5 +133,4 @@ public class ResultRepository {
 
         return datesIDAfterFilter;
     }
-
 }

@@ -32,9 +32,7 @@ public class DoctorRepository {
 
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-        documents.forEach(document -> {
-            userDAOS.add(document.toObject(UserDAO.class));
-        });
+        documents.forEach(document -> userDAOS.add(document.toObject(UserDAO.class)));
 
         return userDAOS;
     }
