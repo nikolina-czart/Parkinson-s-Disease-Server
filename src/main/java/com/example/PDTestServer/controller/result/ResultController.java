@@ -17,17 +17,9 @@ public class ResultController {
     @Autowired
     ResultService resultService;
 
-    @PostMapping("/{uid}/testresult")
+    @PostMapping("/{uid}/test")
     public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
         return resultService.getTestResultData(uid, resultRequestDTO);
     }
-//    @PostMapping("/{uid}/testresult")
-//    public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
-//        return resultService.getFingerTappingData(uid, resultRequestDTO);
-//    }
-//    @PostMapping("/{uid}/gyroscope")
-//    public List<ResultGyroscopeDTO> getResultGyroscope(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
-//        return resultService.getGyroscopeData(uid, resultRequestDTO);
-//    }
 
 }

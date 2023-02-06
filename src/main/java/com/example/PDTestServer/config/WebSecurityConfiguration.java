@@ -36,10 +36,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.oauth2ResourceServer()
                 .jwt();
-//        http.csrf().disable();
-//
-//        http.oauth2ResourceServer()
-//                .jwt();
+
     }
 
     public JwtAuthenticationConverter jwtAuthenticationConverter() {

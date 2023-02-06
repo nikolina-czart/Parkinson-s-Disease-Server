@@ -1,4 +1,4 @@
-package com.example.PDTestServer.service;
+package com.example.PDTestServer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

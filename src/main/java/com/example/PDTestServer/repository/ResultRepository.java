@@ -2,7 +2,7 @@ package com.example.PDTestServer.repository;
 
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
-import com.example.PDTestServer.service.GyroscopeTestResultDAO;
+import com.example.PDTestServer.model.GyroscopeTestResultDAO;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Repository
 public class ResultRepository {

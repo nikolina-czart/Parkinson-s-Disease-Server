@@ -41,8 +41,10 @@ public class UserService {
 
     private UserDTO convertUserDAOToUserDTO(UserDAO userDAO) {
         return UserDTO.builder()
+                .uid(userDAO.getUid())
                 .name(userDAO.getName())
                 .surname(userDAO.getSurname())
+                .email(userDAO.getEmail())
                 .role(userDAO.getRole())
                 .doctorID(userDAO.getRole())
                 .build();

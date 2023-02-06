@@ -5,6 +5,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.SetOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +37,7 @@ public class UserRepository {
     //TODO correct update
     public void updateUser(String uid, UserDAO userDAO) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection(COLLECTION_NAME).document(uid).set(userDAO);
+        dbFirestore.collection(COLLECTION_NAME).document(uid).set(userDAO, SetOptions.merge());
     }
 
     public void deleteUser(String uid) {

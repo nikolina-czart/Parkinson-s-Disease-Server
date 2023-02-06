@@ -3,9 +3,8 @@ package com.example.PDTestServer.service;
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.controller.result.response.*;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
-import com.example.PDTestServer.model.ResultGyroscopeDTO;
+import com.example.PDTestServer.model.GyroscopeTestResultDAO;
 import com.example.PDTestServer.repository.ResultRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

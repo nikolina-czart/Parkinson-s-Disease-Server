@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -18,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("save/{uid}")
-    public ResponseEntity<String> saveUser(@PathVariable String uid, @RequestBody UserDTO userDTO) throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> saveUser(@PathVariable String uid, @RequestBody UserDTO userDTO) {
         String response = userService.saveUser(userDTO, uid);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -29,12 +32,12 @@ public class UserController {
     }
 
     @PutMapping("/{uid}")
-    public String updateUser(@PathVariable String uid, @RequestBody UserDTO userDTO) throws ExecutionException, InterruptedException {
+    public String updateUser(@PathVariable String uid, @RequestBody UserDTO userDTO) {
         return userService.updateUser(uid, userDTO);
     }
 
     @DeleteMapping("/{uid}")
-    public String deleteUser(@PathVariable String uid) throws ExecutionException, InterruptedException {
+    public String deleteUser(@PathVariable String uid) {
         return userService.deleteUser(uid);
     }
 }
