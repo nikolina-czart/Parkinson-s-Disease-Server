@@ -102,7 +102,9 @@ public class ResultService {
         ArrayList<String> y = new ArrayList<>();
         ArrayList<String> z = new ArrayList<>();
 
-        arrayList.remove(0);
+        if(!arrayList.isEmpty()){
+            arrayList.remove(0);
+        }
 
         arrayList.forEach(s -> {
             String[] splits = s.split(",");

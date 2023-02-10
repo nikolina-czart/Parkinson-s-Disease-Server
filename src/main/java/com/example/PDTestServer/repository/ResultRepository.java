@@ -38,21 +38,21 @@ public class ResultRepository {
         LocalDate endDate = LocalDate.parse(resultRequestDTO.getToDate());
 
         CollectionReference testDatesCollectionReference = getTestDatesCollectionReference(dbFirestore, uid, testName);
-        Map<String, String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
+        List<String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
 
-        datesID.forEach((k, v) -> {
-            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(k).collection("LEFT").document("testData").get();
-            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(k).collection("RIGHT").document("testData").get();
+        datesID.forEach((dateID) -> {
+            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(dateID).collection("LEFT").document("testData").get();
+            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(dateID).collection("RIGHT").document("testData").get();
 
-            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, k);
+            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, dateID);
 
             ArrayList<String> accelLeft = getArrayList(leftSideFuture, "accel");
             ArrayList<String> dataLeft = getArrayList(leftSideFuture, "data");
             ArrayList<String> accelRight = getArrayList(rightSideFuture, "accel");
             ArrayList<String> dataRight = getArrayList(rightSideFuture, "data");
 
-            results.add(new FingerTappingTestResultDAO(v, accelLeft, dataLeft, hoursSinceLastMed, "LEFT"));
-            results.add(new FingerTappingTestResultDAO(v, accelRight, dataRight, hoursSinceLastMed, "RIGHT"));
+            results.add(new FingerTappingTestResultDAO(dateID, accelLeft, dataLeft, hoursSinceLastMed, "LEFT"));
+            results.add(new FingerTappingTestResultDAO(dateID, accelRight, dataRight, hoursSinceLastMed, "RIGHT"));
         });
 
         return results;
@@ -68,19 +68,19 @@ public class ResultRepository {
         LocalDate endDate = LocalDate.parse(resultRequestDTO.getToDate());
 
         CollectionReference testDatesCollectionReference = getTestDatesCollectionReference(dbFirestore, uid, testName);
-        Map<String, String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
+        List<String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
 
-        datesID.forEach((k, v) -> {
-            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(k).collection("LEFT").document("testData").get();
-            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(k).collection("RIGHT").document("testData").get();
+        datesID.forEach((dataID) -> {
+            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(dataID).collection("LEFT").document("testData").get();
+            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(dataID).collection("RIGHT").document("testData").get();
 
-            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, k);
+            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, dataID);
 
             ArrayList<String> accelLeft = getArrayList(leftSideFuture, "accel");
             ArrayList<String> accelRight = getArrayList(rightSideFuture, "accel");
 
-            results.add(new GyroscopeTestResultDAO(v, accelLeft, hoursSinceLastMed, "LEFT"));
-            results.add(new GyroscopeTestResultDAO(v, accelRight, hoursSinceLastMed, "RIGHT"));
+            results.add(new GyroscopeTestResultDAO(dataID, accelLeft, hoursSinceLastMed, "LEFT"));
+            results.add(new GyroscopeTestResultDAO(dataID, accelRight, hoursSinceLastMed, "RIGHT"));
         });
 
         return results;
@@ -111,25 +111,25 @@ public class ResultRepository {
                 .collection(COLLECTION_TEST_DATES_NAME);
     }
 
-    private Map<String, String> getTestDatesIDByRangeDate(CollectionReference collectionReference, LocalDate startDate, LocalDate endDate) throws ExecutionException, InterruptedException {
-        Map<String, String> dates = new HashMap<>();
-        Map<String, String> datesIDAfterFilter = new HashMap<>();
+    private List<String> getTestDatesIDByRangeDate(CollectionReference collectionReference, LocalDate startDate, LocalDate endDate) throws ExecutionException, InterruptedException {
+        List<String> dates = new ArrayList<>();
+        List<String> datesAfterFilter = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         ApiFuture<QuerySnapshot> fingerTappingFuture = collectionReference.get();
         fingerTappingFuture.get().forEach(document -> {
-            dates.put(document.getId(), document.get("date").toString());
+            dates.add(document.getId());
         });
 
-        dates.forEach((k, v) -> {
-            LocalDateTime localDateTime = LocalDateTime.parse(v, formatter);
+        dates.forEach((date) -> {
+            LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
             LocalDate localDate = localDateTime.toLocalDate();
             boolean isInRange = (localDate.isAfter(startDate) & localDate.isBefore(endDate)) || localDate.isEqual(startDate) || localDate.isEqual(endDate);
             if(isInRange) {
-                datesIDAfterFilter.put(k, v);
+                datesAfterFilter.add(date);
             }
         });
 
-        return datesIDAfterFilter;
+        return datesAfterFilter;
     }
 }

@@ -13,7 +13,10 @@ import java.io.IOException;
 
 @Configuration
 public class FirebaseAuthConfig {
-    @Value("classpath:service-account.json")
+//    @Value("classpath:service-account.json")
+//    Resource serviceAccount;
+
+    @Value("classpath:test.json")
     Resource serviceAccount;
 
     @Bean

@@ -24,6 +24,7 @@ public class DoctorController {
 
     @GetMapping("/{uid}/patient")
     public Set<UserWithTestDTO> getDoctorPatients(@PathVariable String uid) throws ExecutionException, InterruptedException {
+        System.out.println(uid);
         return doctorService.getDoctorPatients(uid);
     }
 }
