@@ -10,6 +10,7 @@ import static com.example.PDTestServer.utils.firebase.FieldName.ROLE;
 
 public class FirebaseQuery {
 
+    //TODO - good
     public static Query patientByDoctorId(String doctorId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         return dbFirestore

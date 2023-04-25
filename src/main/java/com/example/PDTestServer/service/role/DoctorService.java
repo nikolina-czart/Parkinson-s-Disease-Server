@@ -20,6 +20,7 @@ import static com.example.PDTestServer.utils.coverter.PatientConverter.coverterU
 import static com.example.PDTestServer.utils.coverter.TestConverter.convertTestDetailsDAOToTestDTO;
 import static com.example.PDTestServer.utils.coverter.UserConverter.convertUserDAOToUserDTO;
 
+//TODO - good
 @Service
 public class DoctorService {
 
@@ -32,31 +33,34 @@ public class DoctorService {
     @Autowired
     PatientTestsRepository patientTestsRepository;
 
-
+    //TODO - good
     public boolean checkRole(String uid) throws ExecutionException, InterruptedException {
         UserDTO userDTO = convertUserDAOToUserDTO(userRepository.getUserDetails(uid));
         return userDTO.getRole().equals("DOCTOR");
     }
 
+    //TODO - good
     public Set<PatientDTO> getDoctorPatients(String uid) throws ExecutionException, InterruptedException {
-        Set<UserDAO> userDAOList = doctorRepository.getPatientsByDoctorId(uid);
-        return convertSetPatientsDTOToDAO(userDAOList);
+        Set<UserDAO> patientsByDoctorId = doctorRepository.getPatientsByDoctorId(uid);
+        return getPatientsWithTests(patientsByDoctorId);
     }
 
-    private Set<PatientDTO> convertSetPatientsDTOToDAO(Set<UserDAO> users) {
-        Set<PatientDTO> patientDTOS = new HashSet<>();
-        users.forEach(user -> patientDTOS.add(coverterUserDAOToPatientDTO(user, getPatientTests(user.getUid()))));
+    //TODO - good
+    private Set<PatientDTO> getPatientsWithTests(Set<UserDAO> patients) {
+        Set<PatientDTO> patientsWithTests = new HashSet<>();
+        patients.forEach(patient -> patientsWithTests.add(coverterUserDAOToPatientDTO(patient, getTestsByPatient(patient.getUid()))));
 
-        return patientDTOS;
+        return patientsWithTests;
     }
 
-    private Set<TestDetailDTO> getPatientTests(String uid){
-        Set<TestDetailDTO> patientTestDetailDTOSet = new HashSet<>();
+    //TODO - good
+    private Set<TestDetailDTO> getTestsByPatient(String uid){
+        Set<TestDetailDTO> patientTestsDetail = new HashSet<>();
 
         try{
             Map<String, TestDetailsDAO> dataTestToTestDetails = patientTestsRepository.getTestByUser(uid);
-            dataTestToTestDetails.forEach((key, value) -> patientTestDetailDTOSet.add(convertTestDetailsDAOToTestDTO(value, key)));
-            return patientTestDetailDTOSet;
+            dataTestToTestDetails.forEach((key, value) -> patientTestsDetail.add(convertTestDetailsDAOToTestDTO(value, key)));
+            return patientTestsDetail;
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }

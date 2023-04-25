@@ -9,6 +9,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Builder
+//TODO - good
 public class PatientDTO {
     private String uid;
     private String name;

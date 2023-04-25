@@ -47,16 +47,9 @@ public class PatientTestsRepository {
         long countTests = testDatesCollectionReference.count().get().get().getCount();
 
         if(countTests != 0) {
-            String dateTestStart = testDatesCollectionReference.orderBy(FieldName.CREATE_AT.name).limit(1).get().get().getDocuments().get(0).getId();
-            String dateTestLast = testDatesCollectionReference.orderBy(FieldName.CREATE_AT.name).limitToLast(1).get().get().getDocuments().get(0).getId();
-
             test.setNumberTest(String.valueOf(countTests));
-            test.setStartDate(dateTestStart);
-            test.setLastDate(dateTestLast);
-        } else {
-            test.setNumberTest(String.valueOf(0));
-            test.setStartDate("Nie rozpoczęto badania");
-            test.setLastDate("Nie rozpoczęto badania");
+            test.setStartDate(testDatesCollectionReference.orderBy(FieldName.CREATE_AT.name).limit(1).get().get().getDocuments().get(0).getId());
+            test.setLastDate(testDatesCollectionReference.orderBy(FieldName.CREATE_AT.name).limitToLast(1).get().get().getDocuments().get(0).getId());
         }
     }
 }
