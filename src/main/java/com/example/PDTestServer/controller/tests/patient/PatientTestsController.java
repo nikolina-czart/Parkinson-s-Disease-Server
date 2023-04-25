@@ -1,4 +1,4 @@
-package com.example.PDTestServer.controller.patientTests;
+package com.example.PDTestServer.controller.tests.patient;
 
 import com.example.PDTestServer.controller.tests.patient.request.PatientTestDTO;
 import com.example.PDTestServer.service.tests.PatientTestsService;
@@ -15,8 +15,15 @@ public class PatientTestsController {
     @Autowired
     private PatientTestsService patientTestService;
 
+    //TODO - good
     @PostMapping("save/{uid}")
-    public String saveTest(@PathVariable String uid, @RequestBody Set<PatientTestDTO> patientTestsSet) throws ExecutionException {
+    public String saveTest(@PathVariable String uid, @RequestBody Set<PatientTestDTO> patientTestsSet) {
         return patientTestService.saveTest(uid, patientTestsSet);
+    }
+
+    //TODO - good
+    @DeleteMapping("/{uid}/{testID}")
+    public String deleteTest(@PathVariable String uid, @PathVariable String testID) {
+        return patientTestService.deleteTest(uid, testID);
     }
 }

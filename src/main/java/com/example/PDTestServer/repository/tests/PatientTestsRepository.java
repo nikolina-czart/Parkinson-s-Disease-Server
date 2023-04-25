@@ -17,11 +17,17 @@ import static com.example.PDTestServer.utils.firebase.FirebaseReference.*;
 @Repository
 public class PatientTestsRepository {
 
+    //TODO - good
     public void saveTestToPatient(String uid, Map<String, PatientTestDAO> patientTests) {
         patientTests.forEach((testUid, test) -> {
             patientTestDocRef(uid, testUid).set(test);
             patientTestHistoryDocRef(uid, testUid).set(test);
         });
+    }
+
+    //TODO - good
+    public void deleteTest(String uid, String testID) {
+        patientTestDocRef(uid, testID).delete();
     }
 
     public Map<String, TestDetailsDAO> getTestByUser(String uid) throws ExecutionException, InterruptedException {

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
+//TODO - good
 public class PatientTestDAO {
     private String name;
 }

@@ -18,11 +18,19 @@ public class PatientTestsService {
     @Autowired
     PatientTestsRepository patientTestsRepository;
 
+    //TODO - good
     public String saveTest(String uid, Set<PatientTestDTO> patientTests) {
         patientTestsRepository.saveTestToPatient(uid, convertSetPatientTestsDTOToDAO(patientTests));
         return "Tests has been saved successfully to user with ID " + uid;
     }
 
+    //TODO - good
+    public String deleteTest(String uid, String testID) {
+        patientTestsRepository.deleteTest(uid, testID);
+        return "Test " + testID + " for User with User ID " + uid + "has been deleted successfully";
+    }
+
+    //TODO - good
     private Map<String, PatientTestDAO> convertSetPatientTestsDTOToDAO(Set<PatientTestDTO> patientTests) {
         Map<String, PatientTestDAO> tests = new HashMap<>();
 
