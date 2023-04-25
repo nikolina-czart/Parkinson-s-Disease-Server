@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+//TODO - good
 public class ConfigTestDTO {
     private String uid;
     private String name;

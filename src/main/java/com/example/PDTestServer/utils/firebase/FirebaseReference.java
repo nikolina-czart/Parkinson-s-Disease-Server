@@ -36,13 +36,10 @@ public class FirebaseReference {
                 .collection(CollectionName.TESTS_HISTORY.name).document(testUid);
     }
 
-//    public static DocumentReference userTestReference(String userUid) {
-//
-//    }
-//
-//    public static DocumentReference userTestHistoryReference(String userUid) {
-//
-//    }
+    public static CollectionReference configTestColRef() {
+        Firestore db = FirestoreClient.getFirestore();
+        return db.collection(CollectionName.TESTS.name);
+    }
 
 
 }

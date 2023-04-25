@@ -11,14 +11,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.PDTestServer.utils.firebase.FirebaseReference.configTestColRef;
+
 @Repository
 public class ConfigRepository {
-    private static final String COLLECTION_TEST_NAME = "tests";
+
+    //TODO - good
     public Set<ConfigTestDAO> getBaseTestDetails() throws ExecutionException, InterruptedException {
         Set<ConfigTestDAO> configTestDAOS = new HashSet<>();
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        List<QueryDocumentSnapshot> documents = dbFirestore.collection(COLLECTION_TEST_NAME).get().get().getDocuments();
-
+        List<QueryDocumentSnapshot> documents = configTestColRef().get().get().getDocuments();
         documents.forEach(document -> configTestDAOS.add(document.toObject(ConfigTestDAO.class)));
 
         return configTestDAOS;

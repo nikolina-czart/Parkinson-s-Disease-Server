@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+//TODO - good
 @RestController
 @RequestMapping("/api/config")
 public class ConfigTestController {
@@ -17,6 +18,7 @@ public class ConfigTestController {
     @Autowired
     private ConfigService configService;
 
+    //TODO - good
     @GetMapping("/test")
     public Set<ConfigTestDTO> getBaseTestDetails() throws ExecutionException, InterruptedException {
         return configService.getBaseTestDetails();
