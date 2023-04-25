@@ -1,57 +1,58 @@
 package com.example.PDTestServer.service;
 
-import com.example.PDTestServer.controller.patientTests.request.PatientTestDTO;
-import com.example.PDTestServer.model.PatientTestDAO;
-import com.example.PDTestServer.repository.TestPatientRepository;
+import com.example.PDTestServer.controller.patientTests.request.PatientTestDTO1;
+import com.example.PDTestServer.model.tests.TestDetailsDAO;
+import com.example.PDTestServer.repository.tests.PatientTestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class TestService {
     @Autowired
-    TestPatientRepository testPatientRepository;
+    PatientTestsRepository patientTestsRepository;
 
-    public String saveTest(String uid, Set<PatientTestDTO> patientTestDTOSet) {
-        testPatientRepository.saveTestByPatient(uid, getMapStringToPatientTestDAO(patientTestDTOSet));
+//    public String saveTest(String uid, Set<PatientTestDTO> patientTestDTOSet) {
+//        testPatientRepository.saveTestToPatient(uid, getMapStringToPatientTestDAO(patientTestDTOSet));
+//
+//        return "Tests has been saved successfully to user with ID " + uid;
+//    }
 
-        return "Tests has been saved successfully to user with ID " + uid;
-    }
+//    public Set<PatientTestDTO> getTestDetails(String uid) throws ExecutionException, InterruptedException {
+//        Map<String, TestDAO> patientTestDAOMap = testPatientRepository.getTestDetailsForUser(uid);
+//
+//        return getPatientTestDTOSet(patientTestDAOMap);
+//    }
+//
+//    public String deleteTest(String uid, String testID) {
+//        testPatientRepository.deleteTest(uid, testID);
+//        return "Test " + testID + " for User with User ID " + uid + "has been deleted successfully";
+//    }
 
-    public Set<PatientTestDTO> getTestDetails(String uid) throws ExecutionException, InterruptedException {
-        Map<String, PatientTestDAO> patientTestDAOMap = testPatientRepository.getTestDetails(uid);
+//    private Map<String, TestDetailsDAO> getMapStringToPatientTestDAO(Set<PatientTestDTO> testsAvailable) {
+//        Map<String, TestDetailsDAO> patientTestDAOMap = new HashMap<>();
+//
+//        testsAvailable.forEach(test -> patientTestDAOMap.put(test.getUid(), new PatientTestDAO(test.getUid())));
+//
+//        return patientTestDAOMap;
+//    }
 
-        return getPatientTestDTOSet(patientTestDAOMap);
-    }
-
-    public String deleteTest(String uid, String testID) {
-        testPatientRepository.deleteTest(uid, testID);
-        return "Test " + testID + " for User with User ID " + uid + "has been deleted successfully";
-    }
-
-    private Map<String, PatientTestDAO> getMapStringToPatientTestDAO(Set<PatientTestDTO> testsAvailable) {
-        Map<String, PatientTestDAO> patientTestDAOMap = new HashMap<>();
-
-        testsAvailable.forEach(test -> patientTestDAOMap.put(test.getUid(), new PatientTestDAO(test.getName())));
-
-        return patientTestDAOMap;
-    }
-
-    private Set<PatientTestDTO> getPatientTestDTOSet(Map<String, PatientTestDAO> patientTestDAOMap) {
-        Set<PatientTestDTO> patientTestDTOSet = new HashSet<>();
+    private Set<PatientTestDTO1> getPatientTestDTOSet(Map<String, TestDetailsDAO> patientTestDAOMap) {
+        Set<PatientTestDTO1> patientTestDTO1Set = new HashSet<>();
 
         patientTestDAOMap.forEach((key, value) ->
-                patientTestDTOSet.add(PatientTestDTO.builder()
+                patientTestDTO1Set.add(PatientTestDTO1.builder()
                         .uid(key)
-                        .name(value.getName())
+//                        .name(value.getName())
+                        .startDate(value.getStartDate())
+                        .lastDate(value.getLastDate())
+                        .numberTest(value.getNumberTest())
                         .build())
         );
 
-        return patientTestDTOSet;
+        return patientTestDTO1Set;
     }
 }

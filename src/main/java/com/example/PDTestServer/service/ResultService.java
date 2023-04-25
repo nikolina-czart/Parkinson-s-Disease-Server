@@ -1,5 +1,6 @@
 package com.example.PDTestServer.service;
 
+import com.example.PDTestServer.controller.result.request.ResultAllRequestDTO;
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.controller.result.response.*;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
@@ -8,10 +9,12 @@ import com.example.PDTestServer.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+import java.io.FileWriter;
 @Service
 public class ResultService {
 
@@ -25,6 +28,60 @@ public class ResultService {
         }
         if(resultRequestDTO.getTestNameID().contains(" GYROSCOPE_TEST")){
             return getGyroscopeData(uid, resultRequestDTO);
+        }
+        return result;
+    }
+
+    public List<FingerTappingTestResultDAO> getTestAllResultData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<FingerTappingTestResultDAO> result = new ArrayList<>();
+        if(resultRequestDTO.getTestNameID().contains("FINGER_TAPPING")){
+            List<FingerTappingTestResultDAO> fingerTappingData = resultRepository.getAllFingerTappingData(uid, resultRequestDTO);
+
+            String url = "C:\\Users\\nikol\\Desktop\\Magisterka\\dane\\nowe\\zofmar\\evening\\";
+            fingerTappingData.forEach(fingerTappingTestResult -> {
+                if(fingerTappingTestResult.getSide() == "LEFT") {
+                    String path = url + "Left\\" + "zofmar" + fingerTappingTestResult.getDate().replace(" ","").replace("-","").replace(":","") + ".txt";
+                    try {
+                        FileWriter file = new FileWriter(path);
+                        fingerTappingTestResult.getData().forEach(data -> {
+                            try {
+                                file.write(data + "\n");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        file.close();
+                        System.out.println("Successfully wrote to the file.");
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+//                        e.printStackTrace();
+                    }
+                }
+                if(fingerTappingTestResult.getSide() == "RIGHT") {
+                    String path = url + "Right\\" + "zofmar" + fingerTappingTestResult.getDate().replace(" ","").replace("-","").replace(":","") + ".txt";
+
+                    try {
+                        FileWriter file = new FileWriter(path);
+                        fingerTappingTestResult.getData().forEach(data -> {
+                            try {
+                                file.write(data + "\n");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        file.close();
+                        System.out.println("Successfully wrote to the file.");
+                    } catch (IOException e) {
+                        System.out.println("An error occurred.");
+//                        e.printStackTrace();
+                    }
+                }
+            });
+
+            return fingerTappingData;
+        }
+        if(resultRequestDTO.getTestNameID().contains(" GYROSCOPE_TEST")){
+//            return getGyroscopeData(uid, resultRequestDTO);
         }
         return result;
     }

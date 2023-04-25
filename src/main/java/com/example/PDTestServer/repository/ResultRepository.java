@@ -1,5 +1,6 @@
 package com.example.PDTestServer.repository;
 
+import com.example.PDTestServer.controller.result.request.ResultAllRequestDTO;
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.model.FingerTappingTestResultDAO;
 import com.example.PDTestServer.model.GyroscopeTestResultDAO;
@@ -41,6 +42,55 @@ public class ResultRepository {
         List<String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
 
         datesID.forEach((dateID) -> {
+            ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(dateID).collection("LEFT").document("testData").get();
+            ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(dateID).collection("RIGHT").document("testData").get();
+
+            String hoursSinceLastMed = getHoursSinceLastMed(testDatesCollectionReference, dateID);
+
+            ArrayList<String> accelLeft = getArrayList(leftSideFuture, "accel");
+            ArrayList<String> dataLeft = getArrayList(leftSideFuture, "data");
+            ArrayList<String> accelRight = getArrayList(rightSideFuture, "accel");
+            ArrayList<String> dataRight = getArrayList(rightSideFuture, "data");
+
+            results.add(new FingerTappingTestResultDAO(dateID, accelLeft, dataLeft, hoursSinceLastMed, "LEFT"));
+            results.add(new FingerTappingTestResultDAO(dateID, accelRight, dataRight, hoursSinceLastMed, "RIGHT"));
+        });
+
+        return results;
+    }
+
+    public List<FingerTappingTestResultDAO> getAllFingerTappingData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+        List<FingerTappingTestResultDAO> results = new ArrayList<>();
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+
+        String testName = resultRequestDTO.getTestNameID();
+
+        CollectionReference testDatesCollectionReference = getTestDatesCollectionReference(dbFirestore, uid, testName);
+//        List<String> datesID = getTestDatesIDByRangeDate(testDatesCollectionReference, startDate, endDate);
+
+
+        List<String> dates = new ArrayList<>();
+//        List<String> datesAfterFilter = new ArrayList<>();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        ApiFuture<QuerySnapshot> fingerTappingFuture = testDatesCollectionReference.get();
+        fingerTappingFuture.get().forEach(document -> {
+            dates.add(document.getId());
+        });
+
+//        dates.forEach((date) -> {
+//            LocalDateTime localDateTime = LocalDateTime.parse(date, formatter);
+//            LocalDate localDate = localDateTime.toLocalDate();
+//            boolean isInRange = (localDate.isAfter(startDate) & localDate.isBefore(endDate)) || localDate.isEqual(startDate) || localDate.isEqual(endDate);
+//            if(isInRange) {
+//                datesAfterFilter.add(date);
+//            }
+//        });
+//
+//        return datesAfterFilter;
+
+        dates.forEach((dateID) -> {
             ApiFuture<DocumentSnapshot> leftSideFuture = testDatesCollectionReference.document(dateID).collection("LEFT").document("testData").get();
             ApiFuture<DocumentSnapshot> rightSideFuture = testDatesCollectionReference.document(dateID).collection("RIGHT").document("testData").get();
 

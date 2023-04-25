@@ -1,8 +1,6 @@
 package com.example.PDTestServer.repository;
 
 import com.example.PDTestServer.controller.analysis.request.AnalyzedRequestDTO;
-import com.example.PDTestServer.model.FingerTappingTestResultDAO;
-import com.example.PDTestServer.model.GyroscopeTestResultDAO;
 import com.example.PDTestServer.model.TestResultDAO;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -12,7 +10,6 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

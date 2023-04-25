@@ -14,12 +14,12 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/api/analyzed")
 public class AnalyzedController {
 
-    @Autowired
-    AnalyzedService analyzedService;
-
-    @PostMapping("/{uid}/test")
-    public List<AggregateDataResponseDTO> getAnalyzedData(@PathVariable String uid, @RequestBody AnalyzedRequestDTO analyzedRequestDTO) throws ExecutionException, InterruptedException {
-        return analyzedService.getAggregatedData(uid, analyzedRequestDTO);
-    }
+//    @Autowired
+//    AnalyzedService analyzedService;
+//
+//    @PostMapping("/{uid}/test")
+//    public List<AggregateDataResponseDTO> getAnalyzedData(@PathVariable String uid, @RequestBody AnalyzedRequestDTO analyzedRequestDTO) throws ExecutionException, InterruptedException {
+//        return analyzedService.getAggregatedData(uid, analyzedRequestDTO);
+//    }
 
 }

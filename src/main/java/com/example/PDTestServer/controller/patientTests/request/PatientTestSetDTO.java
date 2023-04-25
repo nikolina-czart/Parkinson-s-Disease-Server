@@ -9,5 +9,5 @@ import java.util.Set;
 @Setter
 @Getter
 public class PatientTestSetDTO {
-    private Set<PatientTestDTO> patientTests;
+    private Set<PatientTestDTO1> patientTests;
 }

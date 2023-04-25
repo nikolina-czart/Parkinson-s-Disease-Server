@@ -1,9 +1,12 @@
 package com.example.PDTestServer.controller.result;
 
+import com.example.PDTestServer.controller.result.request.ResultAllRequestDTO;
 import com.example.PDTestServer.controller.result.request.ResultRequestDTO;
 import com.example.PDTestServer.controller.result.response.TestResultResponseDTO;
+import com.example.PDTestServer.model.FingerTappingTestResultDAO;
 import com.example.PDTestServer.model.ResultGyroscopeDTO;
 import com.example.PDTestServer.service.ResultService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +17,18 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/api/result")
 public class ResultController {
 
-    @Autowired
-    ResultService resultService;
-
-    @PostMapping("/{uid}/test")
-    public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
-        return resultService.getTestResultData(uid, resultRequestDTO);
-    }
+//    @Autowired
+//    ResultService resultService;
+//
+//    @PostMapping("/{uid}/test")
+//    public List<TestResultResponseDTO> getResultFingerTapping(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+//        return resultService.getTestResultData(uid, resultRequestDTO);
+//    }
+//
+//    @PostMapping("/{uid}/all")
+//    public String getAllResult(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
+//        List<FingerTappingTestResultDAO> testAllResultData = resultService.getTestAllResultData(uid, resultRequestDTO);
+//        return String.valueOf(testAllResultData.size());
+//    }
 
 }
