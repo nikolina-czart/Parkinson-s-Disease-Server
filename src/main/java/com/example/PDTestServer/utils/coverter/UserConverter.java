@@ -17,7 +17,7 @@ public class UserConverter {
                 .surname(userDAO.getSurname())
                 .email(userDAO.getEmail())
                 .role(userDAO.getRole())
-                .doctorID(userDAO.getRole())
+                .doctorID(userDAO.getDoctorID())
                 .build();
     }
 }

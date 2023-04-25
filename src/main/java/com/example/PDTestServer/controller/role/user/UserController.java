@@ -1,12 +1,14 @@
 package com.example.PDTestServer.controller.role.user;
 
 import com.example.PDTestServer.controller.role.user.request.UserDTO;
+import com.example.PDTestServer.controller.role.user.request.UserFieldUpdate;
 import com.example.PDTestServer.service.role.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -27,8 +29,8 @@ public class UserController {
     }
 
     @PutMapping("/{uid}")
-    public String updateUser(@PathVariable String uid, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(uid, userDTO);
+    public String updateUser(@PathVariable String uid, @RequestBody Set<UserFieldUpdate> fieldsToUpdate) {
+        return userService.updateUser(uid, fieldsToUpdate);
     }
 
     @DeleteMapping("/{uid}")
