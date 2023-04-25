@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
+//TODO - good
 public class UserFieldUpdate {
     private String fieldName;
     private String fieldValue;

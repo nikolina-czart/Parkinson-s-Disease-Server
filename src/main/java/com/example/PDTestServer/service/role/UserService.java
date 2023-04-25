@@ -19,25 +19,28 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     PatientTestsRepository patientTestsRepository;
 
+    //TODO - good
     public String saveUser(UserDTO userDTO, String uid) {
         userRepository.saveUser(uid, convertUserDTOToUserDAO(userDTO));
         return "Document with User ID " + uid + " has been saved successfully";
     }
 
+    //TODO - good
     public UserDTO getUserDetails(String uid) throws ExecutionException, InterruptedException {
         UserDAO userDAO = userRepository.getUserDetails(uid);
         return convertUserDAOToUserDTO(userDAO);
     }
 
+    //TODO - good
     public String updateUser(String uid, Set<UserFieldUpdate> fieldsToUpdate) {
         userRepository.updateUser(uid, fieldsToUpdate);
         return "Document with User ID " + uid + " has been updated successfully";
     }
 
+    //TODO - good
     public String deleteUser(String uid) {
         userRepository.deleteUser(uid);
         return "Document with User ID " + uid + " has been deleted successfully";
