@@ -17,13 +17,11 @@ public class ConfigService {
     @Autowired
     ConfigRepository configRepository;
 
-    //TODO - good
     public Set<ConfigTestDTO> getBaseTestDetails() throws ExecutionException, InterruptedException {
         Set<ConfigTestDAO> configTestDAOs = configRepository.getBaseTestDetails();
         return converterDAOtoDTO(configTestDAOs);
     }
 
-    //TODO - good
     private Set<ConfigTestDTO> converterDAOtoDTO(Set<ConfigTestDAO> configTests) {
         Set<ConfigTestDTO> configTestDTOs = new HashSet<>();
         configTests.forEach((configTest) -> configTestDTOs.add(convertConfigTestDAOToDTO(configTest)));

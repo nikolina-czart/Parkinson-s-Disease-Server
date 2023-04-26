@@ -15,8 +15,7 @@ public class ResultsController {
 
     @Autowired
     ResultsService resultsService;
-
-    //TODO - good
+    
     @PostMapping("/{uid}")
     public List<ResultsDTO> getTestsResult(@PathVariable String uid, @RequestBody ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
         resultsService.getTestResultData(uid, resultRequestDTO);

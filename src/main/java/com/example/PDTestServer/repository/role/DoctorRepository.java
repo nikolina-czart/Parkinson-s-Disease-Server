@@ -14,7 +14,6 @@ import static com.example.PDTestServer.utils.firebase.FirebaseQuery.patientByDoc
 @Repository
 public class DoctorRepository {
 
-    //TODO - good
     public Set<UserDAO> getPatientsByDoctorId(String uid) throws ExecutionException, InterruptedException {
         Set<UserDAO> userDAOS = new HashSet<>();
         List<QueryDocumentSnapshot> documents = patientByDoctorId(uid).get().get().getDocuments();

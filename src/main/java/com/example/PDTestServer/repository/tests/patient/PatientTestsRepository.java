@@ -3,13 +3,13 @@ package com.example.PDTestServer.repository.tests.patient;
 import com.example.PDTestServer.model.tests.PatientTestDAO;
 import com.example.PDTestServer.model.tests.TestDetailsDAO;
 import com.example.PDTestServer.utils.firebase.FieldName;
-import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.PDTestServer.utils.firebase.FirebaseReference.*;
@@ -17,7 +17,6 @@ import static com.example.PDTestServer.utils.firebase.FirebaseReference.*;
 @Repository
 public class PatientTestsRepository {
 
-    //TODO - good
     public void saveTestToPatient(String uid, Map<String, PatientTestDAO> patientTests) {
         patientTests.forEach((testUid, test) -> {
             patientTestDocRef(uid, testUid).set(test);
@@ -25,7 +24,6 @@ public class PatientTestsRepository {
         });
     }
 
-    //TODO - good
     public void deleteTest(String uid, String testID) {
         patientTestDocRef(uid, testID).delete();
     }

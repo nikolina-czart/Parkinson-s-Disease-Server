@@ -4,9 +4,7 @@ public enum CollectionName {
     USERS("users"),
     TESTS("tests"),
     TESTS_HISTORY("testsHistory"),
-    TEST_DATES("testDates"),
-    LEFT("LEFT"),
-    RIGHT("RIGHT");
+    TEST_DATES("testDates");
 
     public String name;
 

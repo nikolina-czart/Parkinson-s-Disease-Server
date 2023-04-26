@@ -1,13 +1,12 @@
 package com.example.PDTestServer.utils.coverter;
 
 import com.example.PDTestServer.controller.results.request.ResultRequestDTO;
-import com.example.PDTestServer.model.DateRangeTest;
+import com.example.PDTestServer.model.results.DateRangeTest;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.sql.Timestamp;
 
 public class DateConverter {
 

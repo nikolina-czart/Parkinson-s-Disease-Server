@@ -1,6 +1,6 @@
 package com.example.PDTestServer.repository.tests.results;
 
-import com.example.PDTestServer.model.DateRangeTest;
+import com.example.PDTestServer.model.results.DateRangeTest;
 import com.example.PDTestServer.model.results.SideResults;
 import com.example.PDTestServer.utils.enums.Side;
 import com.example.PDTestServer.utils.enums.TestName;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampEndDay;
 import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampStartDay;
 import static com.example.PDTestServer.utils.firebase.FirebaseQuery.resultsInRangeTime;
-import static com.example.PDTestServer.utils.firebase.FirebaseReference.*;
+import static com.example.PDTestServer.utils.firebase.FirebaseReference.testSideDocRef;
 
 @Repository
 public class ResultsRepository {

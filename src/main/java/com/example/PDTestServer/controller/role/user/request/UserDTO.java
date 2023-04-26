@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-//TODO - good
 public class UserDTO {
     private String uid;
     private String name;

@@ -9,10 +9,6 @@ import com.example.PDTestServer.model.tests.TestDetailsDAO;
 
 public class TestConverter {
 
-    public static TestDetailsDAO convertTestDTOToTestDAO(TestDetailDTO testDetailDTO) {
-        return new TestDetailsDAO(testDetailDTO.getNumberTest(), testDetailDTO.getStartDate(), testDetailDTO.getLastDate());
-    }
-
     public static TestDetailDTO convertTestDetailsDAOToTestDTO(TestDetailsDAO testDetailsDAO, String uid) {
         return TestDetailDTO.builder()
                 .uid(uid)

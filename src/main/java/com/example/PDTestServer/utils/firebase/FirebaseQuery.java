@@ -14,7 +14,6 @@ import static com.example.PDTestServer.utils.firebase.FirebaseReference.testDate
 
 public class FirebaseQuery {
 
-    //TODO - good
     public static Query patientByDoctorId(String doctorId) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         return dbFirestore

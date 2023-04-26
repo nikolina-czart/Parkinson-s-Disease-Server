@@ -1,8 +1,7 @@
 package com.example.PDTestServer.service.results;
 
 import com.example.PDTestServer.controller.results.response.ResultsDTO;
-import com.example.PDTestServer.model.DateRangeTest;
-import com.example.PDTestServer.model.results.SideResults;
+import com.example.PDTestServer.model.results.DateRangeTest;
 import com.example.PDTestServer.repository.tests.results.ResultsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

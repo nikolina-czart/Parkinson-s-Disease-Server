@@ -1,9 +1,7 @@
 package com.example.PDTestServer.repository;
 
 import com.example.PDTestServer.model.tests.ConfigTestDAO;
-import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -16,7 +14,6 @@ import static com.example.PDTestServer.utils.firebase.FirebaseReference.configTe
 @Repository
 public class ConfigRepository {
 
-    //TODO - good
     public Set<ConfigTestDAO> getBaseTestDetails() throws ExecutionException, InterruptedException {
         Set<ConfigTestDAO> configTestDAOS = new HashSet<>();
         List<QueryDocumentSnapshot> documents = configTestColRef().get().get().getDocuments();

@@ -1,14 +1,11 @@
 package com.example.PDTestServer.service.results;
 
 import com.example.PDTestServer.controller.results.request.ResultRequestDTO;
-import com.example.PDTestServer.controller.result.response.*;
 import com.example.PDTestServer.controller.results.response.ResultsDTO;
-import com.example.PDTestServer.model.DateRangeTest;
-import com.example.PDTestServer.model.GyroscopeTestResultDAO;
+import com.example.PDTestServer.model.results.DateRangeTest;
 import com.example.PDTestServer.model.results.Accel;
 import com.example.PDTestServer.model.results.SideResults;
 import com.example.PDTestServer.model.results.Tapping;
-import com.example.PDTestServer.repository.ResultRepository;
 import com.example.PDTestServer.repository.tests.results.ResultsRepository;
 import com.example.PDTestServer.utils.enums.TestName;
 import com.example.PDTestServer.utils.firebase.FieldName;
