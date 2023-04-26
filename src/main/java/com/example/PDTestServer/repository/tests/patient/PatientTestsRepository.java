@@ -1,4 +1,4 @@
-package com.example.PDTestServer.repository.tests;
+package com.example.PDTestServer.repository.tests.patient;
 
 import com.example.PDTestServer.model.tests.PatientTestDAO;
 import com.example.PDTestServer.model.tests.TestDetailsDAO;

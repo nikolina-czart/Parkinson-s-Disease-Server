@@ -15,7 +15,7 @@ import java.util.List;
 public class FingerTappingTestResultDAO {
     private String date;
     private ArrayList<String> accel;
-    private ArrayList<String> data;
+//    private ArrayList<String> data;
     private String medicineSupply;
     private String side;
 }

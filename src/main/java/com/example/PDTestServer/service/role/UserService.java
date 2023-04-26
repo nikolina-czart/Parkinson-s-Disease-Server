@@ -3,7 +3,7 @@ package com.example.PDTestServer.service.role;
 import com.example.PDTestServer.controller.role.user.request.UserDTO;
 import com.example.PDTestServer.controller.role.user.request.UserFieldUpdate;
 import com.example.PDTestServer.model.role.UserDAO;
-import com.example.PDTestServer.repository.tests.PatientTestsRepository;
+import com.example.PDTestServer.repository.tests.patient.PatientTestsRepository;
 import com.example.PDTestServer.repository.role.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

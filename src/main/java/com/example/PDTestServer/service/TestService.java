@@ -2,7 +2,7 @@ package com.example.PDTestServer.service;
 
 import com.example.PDTestServer.controller.patientTests.request.PatientTestDTO1;
 import com.example.PDTestServer.model.tests.TestDetailsDAO;
-import com.example.PDTestServer.repository.tests.PatientTestsRepository;
+import com.example.PDTestServer.repository.tests.patient.PatientTestsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

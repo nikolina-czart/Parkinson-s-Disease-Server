@@ -10,13 +10,13 @@ import java.util.ArrayList;
 @Getter
 @Builder
 public class TestResultResponseDTO {
-    private String testDate;
+    private String date;
     private String medicineSupply;
     private String side;
     private ArrayList<String> timestamp;
-    private ArrayList<String> x;
-    private ArrayList<String> y;
-    private ArrayList<String> z;
-    private ArrayList<String> timestampUpDown;
-    private ArrayList<String> upDown;
+//    private ArrayList<String> x;
+//    private ArrayList<String> y;
+//    private ArrayList<String> z;
+//    private ArrayList<String> timestampUpDown;
+//    private ArrayList<String> upDown;
 }

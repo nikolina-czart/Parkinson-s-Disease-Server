@@ -1,9 +1,12 @@
 package com.example.PDTestServer.utils.firebase;
 
+import com.example.PDTestServer.utils.enums.Side;
+import com.example.PDTestServer.utils.enums.TestName;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import org.checkerframework.checker.units.qual.C;
 
 public class FirebaseReference {
 
@@ -41,5 +44,16 @@ public class FirebaseReference {
         return db.collection(CollectionName.TESTS.name);
     }
 
+    public static CollectionReference testDatesColRef(String userUid, TestName testName) {
+        Firestore db = FirestoreClient.getFirestore();
+        return db.collection(CollectionName.USERS.name).document(userUid)
+                .collection(CollectionName.TESTS_HISTORY.name).document(testName.name)
+                .collection(CollectionName.TEST_DATES.name);
+    }
+
+    public static DocumentReference testSideDocRef(String userUid, String dataTestUid, Side side, TestName testName) {
+        return testDatesColRef(userUid, testName).document(dataTestUid)
+                .collection(String.valueOf(side)).document(DocumentName.TEST_DATA.name);
+    }
 
 }
