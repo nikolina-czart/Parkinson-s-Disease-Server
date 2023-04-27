@@ -7,7 +7,7 @@ public class UserConverter {
 
     public static UserDAO convertUserDTOToUserDAO(UserDTO userDTO) {
         return new UserDAO(userDTO.getUid(), userDTO.getName(), userDTO.getSurname(), userDTO.getEmail(),
-                userDTO.getRole(), userDTO.getDoctorID());
+                userDTO.getRole(), userDTO.getDoctorID(), userDTO.getControlGroup());
     }
 
     public static UserDTO convertUserDAOToUserDTO(UserDAO userDAO) {
@@ -18,6 +18,7 @@ public class UserConverter {
                 .email(userDAO.getEmail())
                 .role(userDAO.getRole())
                 .doctorID(userDAO.getDoctorID())
+                .controlGroup(userDAO.getControlGroup())
                 .build();
     }
 }

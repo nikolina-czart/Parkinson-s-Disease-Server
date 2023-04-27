@@ -14,4 +14,5 @@ public class UserDTO {
     private String email;
     private String role;
     private String doctorID;
+    private Boolean controlGroup;
 }

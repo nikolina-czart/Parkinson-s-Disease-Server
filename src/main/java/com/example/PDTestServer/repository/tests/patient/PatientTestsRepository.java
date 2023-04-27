@@ -24,8 +24,8 @@ public class PatientTestsRepository {
         });
     }
 
-    public void deleteTest(String uid, String testID) {
-        patientTestDocRef(uid, testID).delete();
+    public void deleteTest(String uid, Map<String, PatientTestDAO> testID) {
+        testID.forEach((testUid, test) -> patientTestDocRef(uid, testUid).delete());
     }
 
     public Map<String, TestDetailsDAO> getTestByUser(String uid) throws ExecutionException, InterruptedException {

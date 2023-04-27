@@ -16,4 +16,5 @@ public class UserDAO {
     private String email;
     private String role;
     private String doctorID;
+    private Boolean controlGroup;
 }

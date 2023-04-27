@@ -19,8 +19,8 @@ public class PatientTestsController {
         return patientTestService.saveTest(uid, patientTestsSet);
     }
 
-    @DeleteMapping("/{uid}/{testID}")
-    public String deleteTest(@PathVariable String uid, @PathVariable String testID) {
-        return patientTestService.deleteTest(uid, testID);
+    @PostMapping("delete/{uid}")
+    public String deleteTest(@PathVariable String uid, @RequestBody Set<PatientTestDTO> patientTestsSet) {
+        return patientTestService.deleteTest(uid, patientTestsSet);
     }
 }
