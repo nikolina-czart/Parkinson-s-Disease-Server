@@ -1,6 +1,11 @@
 package com.example.PDTestServer.controller.role.admin;
 
+import com.example.PDTestServer.model.results.SideResults;
 import com.example.PDTestServer.service.role.DoctorService;
+import com.example.PDTestServer.utils.enums.Side;
+import com.example.PDTestServer.utils.enums.TestName;
+import com.example.PDTestServer.utils.firebase.CollectionName;
+import com.example.PDTestServer.utils.firebase.FieldName;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -14,6 +19,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampEndDay;
+import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampStartDay;
+import static com.example.PDTestServer.utils.firebase.FirebaseQuery.resultsInRangeTime;
+import static com.example.PDTestServer.utils.firebase.FirebaseReference.testDatesColRef;
+import static com.example.PDTestServer.utils.firebase.FirebaseReference.testSideDocRef;
+
 @RestController
 class HelloWorldController {
     private static final String COLLECTION_USER_NAME = "users";
@@ -23,65 +34,45 @@ class HelloWorldController {
     private static final String ROLE = "role";
     private static final String ROLE_PATIENT = "PATIENT";
     private static final String DOCTOR_ID = "doctorID";
+    private static final String UID = "xk2DWuC8nWWcQH4Vj95Ezd1oUA03";
+    private static final String TREMOR_UID = " GYROSCOPE";
 
     @Autowired
     private DoctorService doctorService;
     @GetMapping("/hello")
     public String hello() throws ExecutionException, InterruptedException {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
+        Firestore db = FirestoreClient.getFirestore();
 
-        List<QueryDocumentSnapshot> users = dbFirestore
-                .collection(COLLECTION_USER_NAME)
-                .whereEqualTo(DOCTOR_ID, "hqsbyjOGjJRJlE0qetx3T0v4FuB2")
-                .whereEqualTo(ROLE, ROLE_PATIENT)
-                .get()
-                .get()
-                .getDocuments();
+        List<SideResults> results = new ArrayList<>();
+        List<QueryDocumentSnapshot> filteredResults = testDatesColRef(UID, TestName.TREMORS).get().get().getDocuments();
 
-        List<String> dates = new ArrayList<>();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        users.forEach(user -> {
-            CollectionReference collectionTestReference = dbFirestore
-                    .collection(COLLECTION_USER_NAME)
-                    .document(user.getId())
-                    .collection(COLLECTION_TEST_HISTORY_NAME)
-                    .document("FINGER_TAPPING")
-                    .collection(COLLECTION_TEST_DATES_NAME);
-
-
-            ApiFuture<QuerySnapshot> futureTest = collectionTestReference.get();
-
-            List<QueryDocumentSnapshot> documents = null;
-            try {
-                documents = futureTest.get().getDocuments();
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-            documents.forEach(document -> {
-                if (document.exists()) {
-                    dates.add(document.getId());
-                }
-            });
-
-            dates.forEach(date -> {
-                System.out.println("-----");
-                System.out.println(date);
-                System.out.println("-----");
-                LocalDateTime localDateTime = LocalDateTime.from(formatter.parse(date));
-                Timestamp timestamp = Timestamp.valueOf(localDateTime);
-
-                Map<String, Object> update = new HashMap<>();
-                update.put("createAt", timestamp);
-                dbFirestore.collection(COLLECTION_USER_NAME)
-                        .document(user.getId())
-                        .collection(COLLECTION_TEST_HISTORY_NAME)
-                        .document("FINGER_TAPPING")
-                        .collection(COLLECTION_TEST_DATES_NAME)
-                        .document(date).set(update, SetOptions.merge());
-            });
+        filteredResults.forEach(result -> {
+            results.add(getSideResults(UID, result, Side.LEFT, TestName.TREMORS));
+            results.add(getSideResults(UID, result, Side.RIGHT, TestName.TREMORS));
         });
 
+
+
         return "hello world!";
+    }
+
+    private SideResults getSideResults(String userUid, QueryDocumentSnapshot result, Side side, TestName testName) {
+        String hoursSinceLastMed = String.valueOf(result.getData().get(FieldName.HOURS_SINCE_LAST_MED.name));
+        Map<String, Object> resultFingerTapping = getResult(userUid, result.getId(), side, testName);
+
+        return SideResults.builder()
+                .date(result.getId())
+                .medicineSupply(hoursSinceLastMed)
+                .side(String.valueOf(side))
+                .data(resultFingerTapping)
+                .build();
+    }
+
+    private Map<String, Object> getResult(String userUid, String testUid, Side side, TestName testName) {
+        try {
+            return testSideDocRef(userUid, testUid, side, testName).get().get().getData();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

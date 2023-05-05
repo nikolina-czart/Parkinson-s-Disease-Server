@@ -27,4 +27,19 @@ public class FirebaseQuery {
                 .whereGreaterThanOrEqualTo(FieldName.CREATE_AT.name, fromDate)
                 .whereLessThanOrEqualTo(FieldName.CREATE_AT.name, toDate);
     }
+
+    public static Query resultsByMedicineSupply(String userUid, Timestamp fromDate, Timestamp toDate, TestName testName) {
+        return testDatesColRef(userUid, testName)
+                .whereGreaterThanOrEqualTo(FieldName.CREATE_AT.name, fromDate)
+                .whereLessThanOrEqualTo(FieldName.CREATE_AT.name, toDate);
+    }
+
+    public static Query patientByDoctorIdOrGroup(String doctorId, boolean group) {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        return dbFirestore
+                .collection(CollectionName.USERS.name)
+                .whereEqualTo(DOCTOR_ID.name, doctorId)
+                .whereEqualTo(ROLE.name, PATIENT.name)
+                .whereEqualTo("controlGroup", group);
+    }
 }
