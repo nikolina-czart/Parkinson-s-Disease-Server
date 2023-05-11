@@ -1,10 +1,10 @@
 package com.example.PDTestServer.utils.enums;
 
 public enum PeriodName {
-    MONTH("Miesiąc"),
-    QUARTER("Trzy miesiące"),
-    HALF("Pół roku"),
-    ALL("Wszystkie pomiary");
+    MONTH("Month"),
+    QUARTER("Three months"),
+    HALF("Six months"),
+    ALL("All measurements");
 
     public String name;
 

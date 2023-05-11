@@ -26,6 +26,13 @@ public class FirebaseReference {
                 .collection(CollectionName.TEST_DATES.name);
     }
 
+    public static DocumentReference userTestDatesDocRef(String userUid, String testName, String testUid) {
+        Firestore db = FirestoreClient.getFirestore();
+        return db.collection(CollectionName.USERS.name).document(userUid)
+                .collection(CollectionName.TESTS_HISTORY.name).document(testName)
+                .collection(CollectionName.TEST_DATES.name).document(testUid);
+    }
+
     public static DocumentReference patientTestDocRef(String userUid, String testUid) {
         Firestore db = FirestoreClient.getFirestore();
         return db.collection(CollectionName.USERS.name).document(userUid)

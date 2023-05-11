@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampEndDay;
 import static com.example.PDTestServer.utils.coverter.DateConverter.convertStringToTimestampStartDay;
 import static com.example.PDTestServer.utils.firebase.FirebaseQuery.resultsInRangeTime;
-import static com.example.PDTestServer.utils.firebase.FirebaseReference.testSideDocRef;
+import static com.example.PDTestServer.utils.firebase.FirebaseReference.*;
 
 @Repository
 public class ResultsRepository {
@@ -37,6 +37,12 @@ public class ResultsRepository {
         return results;
     }
 
+    public SideResults getResultDataToSave(String uid, TestName testName, String testId, Side side) {
+        Map<String, Object> result = getResult(uid, testId, side, testName);
+
+        return getSideResults(testId, side, result);
+    }
+
     private SideResults getSideResults(String userUid, QueryDocumentSnapshot result, Side side, TestName testName) {
         String hoursSinceLastMed = String.valueOf(result.getData().get(FieldName.HOURS_SINCE_LAST_MED.name));
         Map<String, Object> resultFingerTapping = getResult(userUid, result.getId(), side, testName);
@@ -46,6 +52,14 @@ public class ResultsRepository {
                 .medicineSupply(hoursSinceLastMed)
                 .side(String.valueOf(side))
                 .data(resultFingerTapping)
+                .build();
+    }
+
+    private SideResults getSideResults(String testId, Side side, Map<String, Object> result) {
+        return SideResults.builder()
+                .date(testId)
+                .side(String.valueOf(side))
+                .data(result)
                 .build();
     }
 

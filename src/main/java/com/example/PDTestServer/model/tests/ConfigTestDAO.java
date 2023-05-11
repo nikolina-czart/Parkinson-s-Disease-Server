@@ -13,5 +13,6 @@ public class ConfigTestDAO {
     private String uid;
     private String name;
     private String namePL;
+    private String nameEN;
     private String icon;
 }

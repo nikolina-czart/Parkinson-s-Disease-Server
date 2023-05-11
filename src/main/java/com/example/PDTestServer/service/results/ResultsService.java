@@ -2,16 +2,20 @@ package com.example.PDTestServer.service.results;
 
 import com.example.PDTestServer.controller.results.request.ResultRequestDTO;
 import com.example.PDTestServer.controller.results.response.ResultsDTO;
+import com.example.PDTestServer.controller.role.doctor.request.SaveTestDTO;
 import com.example.PDTestServer.model.results.DateRangeTest;
 import com.example.PDTestServer.model.results.Accel;
 import com.example.PDTestServer.model.results.SideResults;
 import com.example.PDTestServer.model.results.Tapping;
 import com.example.PDTestServer.repository.tests.results.ResultsRepository;
+import com.example.PDTestServer.service.SaveToFileService;
+import com.example.PDTestServer.utils.enums.Side;
 import com.example.PDTestServer.utils.enums.TestName;
 import com.example.PDTestServer.utils.firebase.FieldName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +33,15 @@ public class ResultsService {
 
     @Autowired
     ResultsRepository resultsRepository;
+    @Autowired
+    SaveToFileService saveToFileService;
+
+    public File saveTestToFile(String uid, SaveTestDTO saveTestDTO) {
+        TestName testName = TestName.valueOfLabel(saveTestDTO.getTestName());
+        Side side = Side.valueOfLabel(saveTestDTO.getSide());
+        SideResults sideResults = resultsRepository.getResultDataToSave(uid, testName, saveTestDTO.getTestId(), side);
+        return saveToFileService.save(sideResults, saveTestDTO);
+    }
 
     public List<ResultsDTO> getTestResultData(String uid, ResultRequestDTO resultRequestDTO) throws ExecutionException, InterruptedException {
         TestName testName = TestName.valueOfLabel(resultRequestDTO.getTestNameID());

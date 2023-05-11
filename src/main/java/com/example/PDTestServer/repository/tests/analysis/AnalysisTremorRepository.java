@@ -84,7 +84,7 @@ public class AnalysisTremorRepository {
         listMap.put(ResultGroup.RIGHT_BEFORE.name(), beforeRightTapping);
         listMap.put(ResultGroup.LEFT_AFTER.name(), afterLeftTapping);
         listMap.put(ResultGroup.RIGHT_AFTER.name(), afterRightTapping);
-        result.put("Wszystkie dane", listMap);
+        result.put("All measurements", listMap);
 
         return result;
     }
@@ -100,16 +100,16 @@ public class AnalysisTremorRepository {
                     int year = date.getYear();
                     switch (quarter) {
                         case 1:
-                            quarterName = String.format("Styczeń-Marzec %d", year);
+                            quarterName = String.format("January-March %d", year);
                             break;
                         case 2:
-                            quarterName = String.format("Kwiecień-Czerwiec %d", year);
+                            quarterName = String.format("April-June %d", year);
                             break;
                         case 3:
-                            quarterName = String.format("Lipiec-Wrzesień %d", year);
+                            quarterName = String.format("July-September %d", year);
                             break;
                         case 4:
-                            quarterName = String.format("Październik-Grudzień %d", year);
+                            quarterName = String.format("October-December %d", year);
                             break;
                     }
                     return String.format("%s %s", quarterName, date.getYear());
@@ -151,7 +151,7 @@ public class AnalysisTremorRepository {
                     LocalDateTime date = LocalDateTime.parse(sr.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     int month = date.getMonthValue();
                     int year = date.getYear();
-                    String halfYear = (month <= 6) ? "Styczeń-Czerwiec" : "Lipiec-Grudzień";
+                    String halfYear = (month <= 6) ? "January-June" : "July-December";
                     return String.format("%s %d", halfYear, year);
                 }));
 
@@ -189,7 +189,7 @@ public class AnalysisTremorRepository {
         Map<String, List<SideResults>> groupByMonth = sideResults.stream()
                 .collect(Collectors.groupingBy(sr -> {
                     LocalDateTime date = LocalDateTime.parse(sr.getDate(), formatter);
-                    String month = date.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("pl"));
+                    String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());;
                     return String.format("%s %d", month, date.getYear());
                 }));
 
@@ -250,7 +250,7 @@ public class AnalysisTremorRepository {
         data.remove(0);
         Map<String, ArrayList<String>> result = getResultMap(data, ACCEL_KEYS);
 
-        return new Accel(result.get("timestamp"), result.get("x"), result.get("y"), result.get("x"));
+        return new Accel(result.get("timestamp"), result.get("x"), result.get("y"), result.get("z"));
     }
 
     private Map<String, ArrayList<String>> getResultMap(ArrayList<String> data, List<String> keys) {

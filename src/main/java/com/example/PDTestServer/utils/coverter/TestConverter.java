@@ -28,6 +28,7 @@ public class TestConverter {
                 .uid(configTest.getUid())
                 .icon(configTest.getIcon())
                 .namePL(configTest.getNamePL())
+                .nameEN(configTest.getNameEN())
                 .name(configTest.getName())
                 .build();
     }

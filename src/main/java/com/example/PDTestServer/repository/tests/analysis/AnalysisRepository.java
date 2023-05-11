@@ -84,7 +84,7 @@ public class AnalysisRepository {
         listMap.put(ResultGroup.RIGHT_BEFORE.name(), beforeRightTapping);
         listMap.put(ResultGroup.LEFT_AFTER.name(), afterLeftTapping);
         listMap.put(ResultGroup.RIGHT_AFTER.name(), afterRightTapping);
-        result.put("Wszystkie dane", listMap);
+        result.put("All measurements", listMap);
 
         return result;
     }
@@ -100,16 +100,16 @@ public class AnalysisRepository {
                     int year = date.getYear();
                     switch (quarter) {
                         case 1:
-                            quarterName = String.format("Styczeń-Marzec %d", year);
+                            quarterName = String.format("January-March %d", year);
                             break;
                         case 2:
-                            quarterName = String.format("Kwiecień-Czerwiec %d", year);
+                            quarterName = String.format("April-June %d", year);
                             break;
                         case 3:
-                            quarterName = String.format("Lipiec-Wrzesień %d", year);
+                            quarterName = String.format("July-September %d", year);
                             break;
                         case 4:
-                            quarterName = String.format("Październik-Grudzień %d", year);
+                            quarterName = String.format("October-December %d", year);
                             break;
                     }
                     return String.format("%s %s", quarterName, date.getYear());
@@ -151,8 +151,8 @@ public class AnalysisRepository {
                     LocalDateTime date = LocalDateTime.parse(sr.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                     int month = date.getMonthValue();
                     int year = date.getYear();
-                    String halfYear = (month <= 6) ? "Styczeń-Czerwiec" : "Lipiec-Grudzień";
-                    return String.format("%s %d", halfYear, year);
+                    String halfYear = (month <= 6) ? "January-June" : "July-December";
+                    return halfYear + " " + year;
                 }));
 
         groupByHalfYearWithMonthNames.forEach((key, value) -> {
@@ -189,8 +189,8 @@ public class AnalysisRepository {
         Map<String, List<SideResults>> groupByMonth = sideResults.stream()
                 .collect(Collectors.groupingBy(sr -> {
                     LocalDateTime date = LocalDateTime.parse(sr.getDate(), formatter);
-                    String month = date.getMonth().getDisplayName(TextStyle.FULL_STANDALONE, new Locale("pl"));
-                    return String.format("%s %d", month, date.getYear());
+                    String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);;
+                    return month.substring(0, 1).toUpperCase() + month.substring(1) + " " + date.getYear();
                 }));
 
         groupByMonth.forEach((key, value) -> {

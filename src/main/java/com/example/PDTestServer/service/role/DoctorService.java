@@ -64,9 +64,9 @@ public class DoctorService {
         String tremorPatientPD = doctorRepository.getNumberTests(uid, false, TestName.TREMORS);
         String tremorControls = doctorRepository.getNumberTests(uid, true, TestName.TREMORS);
 
-        results.add(getPatientsDetailsSummary("Liczba pacjentów", patientsPD, controls));
-        results.add(getPatientsDetailsSummary("Liczba testów: finger tapping", fingerTappingPatientPD, fingerTappingControls));
-        results.add(getPatientsDetailsSummary("Liczba testów: drżenie rąk", tremorPatientPD, tremorControls));
+        results.add(getPatientsDetailsSummary("Number of patients", patientsPD, controls));
+        results.add(getPatientsDetailsSummary("Number of tests: finger tapping", fingerTappingPatientPD, fingerTappingControls));
+        results.add(getPatientsDetailsSummary("Number of tests: hand tremor", tremorPatientPD, tremorControls));
 
         return results;
     }
@@ -107,9 +107,9 @@ public class DoctorService {
             }
         });
 
-        results.add(getPatientSummaryData("Pacjenci z PD - przed lekami", tappingPatientsPD, tremorPatientsPD));
-        results.add(getPatientSummaryDataAfterMed("Pacjenci z PD - po lekach", tappingPatientsPD, tremorPatientsPD));
-        results.add(getPatientSummaryData("Pacjenci kontrolni", tappingControls, tremorControls));
+        results.add(getPatientSummaryData("Patients with PD - Before medicines", tappingPatientsPD, tremorPatientsPD));
+        results.add(getPatientSummaryDataAfterMed("Patients with PD - After medication", tappingPatientsPD, tremorPatientsPD));
+        results.add(getPatientSummaryData("Control patients", tappingControls, tremorControls));
 
         return results;
     }
