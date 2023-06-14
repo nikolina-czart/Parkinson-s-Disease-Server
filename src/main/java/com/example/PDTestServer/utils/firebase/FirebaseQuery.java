@@ -7,7 +7,7 @@ import com.google.firebase.cloud.FirestoreClient;
 
 import java.sql.Timestamp;
 
-import static com.example.PDTestServer.utils.enums.Role.PATIENT;
+import static com.example.PDTestServer.utils.enums.Role.*;
 import static com.example.PDTestServer.utils.firebase.FieldName.DOCTOR_ID;
 import static com.example.PDTestServer.utils.firebase.FieldName.ROLE;
 import static com.example.PDTestServer.utils.firebase.FirebaseReference.testDatesColRef;
@@ -20,6 +20,13 @@ public class FirebaseQuery {
                 .collection(CollectionName.USERS.name)
                 .whereEqualTo(DOCTOR_ID.name, doctorId)
                 .whereEqualTo(ROLE.name, PATIENT.name);
+    }
+
+    public static Query allDoctors() {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        return dbFirestore
+                .collection(CollectionName.USERS.name)
+                .whereEqualTo(ROLE.name, DOCTOR.name);
     }
 
     public static Query resultsInRangeTime(String userUid, Timestamp fromDate, Timestamp toDate, TestName testName) {

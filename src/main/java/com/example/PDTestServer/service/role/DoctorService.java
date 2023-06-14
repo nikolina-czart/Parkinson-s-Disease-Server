@@ -25,7 +25,6 @@ import static com.example.PDTestServer.utils.coverter.PatientConverter.coverterU
 import static com.example.PDTestServer.utils.coverter.TestConverter.convertTestDetailsDAOToTestDTO;
 import static com.example.PDTestServer.utils.coverter.UserConverter.convertUserDAOToUserDTO;
 
-//TODO - good
 @Service
 public class DoctorService {
 

@@ -51,7 +51,11 @@ public class ResultsService {
     public List<ResultsDTO> getResultsDataByTestType(String uid, TestName testName, DateRangeTest resultRequestDTO) throws ExecutionException, InterruptedException {
         List<ResultsDTO> results = new ArrayList<>();
         List<SideResults> sideResults = resultsRepository.getResultData(uid, resultRequestDTO, testName);
-        sideResults.forEach(data -> results.add(getResultData(data)));
+        sideResults.forEach(data -> {
+            if(data.getData() != null) {
+                results.add(getResultData(data));
+            }
+        });
 
         return results;
     }
@@ -59,6 +63,7 @@ public class ResultsService {
     private ResultsDTO getResultData(SideResults result) {
         Accel accel = null;
         Tapping tapping = null;
+
         if(result.getData().containsKey(FieldName.ACCEL.name)){
             accel = createListAccelData((ArrayList<String>) result.getData().get(FieldName.ACCEL.name));
         }
